@@ -1,0 +1,23 @@
+version: "3"
+services:
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.8.1
+    ports:
+      - "9880:9880"
+      - "24224:24224"
+    environment:
+      - setup.kibana.host=kibana:5601
+      - output.elasticsearch.hosts=elasticsearch:9200
+  elasticsearch:
+    image: elasticsearch:7.4.1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+  kibana:
+    image: kibana:7.4.1
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
