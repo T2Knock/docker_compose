@@ -1,13 +1,16 @@
 version: "3"
 services:
   filebeat:
+    user: 0:0
     image: docker.elastic.co/beats/filebeat:8.8.1
-    ports:
-      - "9880:9880"
-      - "24224:24224"
     environment:
+      - strict.perms=false
       - setup.kibana.host=kibana:5601
       - output.elasticsearch.hosts=elasticsearch:9200
+    volumes:
+      - ./filebeat.docker.yml:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
   elasticsearch:
     image: elasticsearch:7.4.1
     ports:
