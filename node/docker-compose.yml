@@ -1,0 +1,22 @@
+version: "3.0"
+
+services:
+  node1:
+    restart: on-failure
+    build: ./web
+    hostname: web1
+    ports:
+      - "81:3000"
+  node2:
+    restart: on-failure
+    build: ./web
+    hostname: web2
+    ports:
+      - "82:3000"
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web1
+      - web2
