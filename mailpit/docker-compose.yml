@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  smtp-server:
+    image: axllent/mailpit
+    environment:
+      - MP_DATA_FILE=/data/mailpit.db
+      - MP_UI_AUTH_FILE=/data/.htpasswd
+      - MP_SMTP_AUTH_FILE=/data/.htpasswd
+      - MP_SMTP_AUTH_ALLOW_INSECURE=true
+      - TZ=Asia/Ho_Chi_Minh
+    ports:
+      - 8025:8025
+      - 1025:1025
+    volumes:
+      - ./data/.htpasswd:/data/.htpasswd
