@@ -20,6 +20,12 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+  # rabbitmq2:
+  #   image: rabbitmq:3-management-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5673:5672
+  #     - 15673:15672
   redis:
     image: redis:7.0
     restart: unless-stopped
