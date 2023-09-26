@@ -2,9 +2,8 @@ version: "3.8"
 
 services:
   fluentd:
-    image: "fluent/fluentd:v1.16.2-1.0"
+    build: ./fluentd
     ports:
       - "24224:24224"
-      - "24224:24224/udp"
     volumes:
-      - "/data:/fluentd/log"
+      - "./fluentd/conf:/fluentd/etc"
