@@ -1,29 +1,25 @@
 version: "3"
 services:
-  # web:
-  #   image: httpd
-  #   ports:
-  #     - "80:80"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: httpd.access
+  web:
+    image: httpd
+    ports:
+      - "80:80"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: httpd.access
 
   fluentd:
     build: ./fluentd
     volumes:
       - ./fluentd/conf:/fluentd/etc
-    links:
-      - "elasticsearch"
     ports:
       - "24224:24224"
       - "24224:24224/udp"
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
+    image: opensearchproject/opensearch:latest
     container_name: elasticsearch
     environment:
       - "discovery.type=single-node"
@@ -33,8 +29,6 @@ services:
       - "9200:9200"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.13.1
-    links:
-      - "elasticsearch"
+    image: opensearchproject/opensearch-dashboards:latest
     ports:
       - "5601:5601"
