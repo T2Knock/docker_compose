@@ -4,9 +4,9 @@ networks:
   loki:
 
 volumes:
-  prometheus:
+  # prometheus:
   grafana:
-  alertmanager-data:
+  # alertmanager-data:
   loki:
 
 services:
@@ -39,22 +39,22 @@ services:
     networks:
       - loki
 
-  prometheus:
-    image: prom/prometheus:v2.27.0
-    ports:
-      - 9090
-    volumes:
-      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
-      - prometheus:/prometheus
-    command:
-      [
-        '--log.level=debug',
-        '--config.file=/etc/prometheus/prometheus.yml',
-        '--enable-feature=remote-write-receiver',
-        '--query.lookback-delta=30s'
-      ]
-    networks:
-      - loki
+  # prometheus:
+  #   image: prom/prometheus:v2.27.0
+  #   ports:
+  #     - 9090
+  #   volumes:
+  #     - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml
+  #     - prometheus:/prometheus
+  #   command:
+  #     [
+  #       "--log.level=debug",
+  #       "--config.file=/etc/prometheus/prometheus.yml",
+  #       "--enable-feature=remote-write-receiver",
+  #       "--query.lookback-delta=30s",
+  #     ]
+  #   networks:
+  #     - loki
 
   # for testing purposes only, disable in production
   log-generator:
@@ -180,14 +180,14 @@ services:
       replicas: 3
 
   # alertmanager to enable receiving alerts
-  alertmanager:
-    image: prom/alertmanager:v0.23.0
-    restart: unless-stopped
-    ports:
-      - "9093:9093"
-    volumes:
-      - "./config:/config"
-      - alertmanager-data:/data
-    command: --config.file=/config/alertmanager.yml --log.level=debug
-    networks:
-      - loki
+  # alertmanager:
+  #   image: prom/alertmanager:v0.23.0
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9093:9093"
+  #   volumes:
+  #     - "./config:/config"
+  #     - alertmanager-data:/data
+  #   command: --config.file=/config/alertmanager.yml --log.level=debug
+  #   networks:
+  #     - loki
