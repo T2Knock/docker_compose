@@ -1,0 +1,29 @@
+global:
+  resolve_timeout: 5m
+  slack_api_url: "__SLACK_URL__"
+
+route:
+  receiver: "default-receiver"
+  repeat_interval: 4h
+  group_by: [alertname]
+  routes:
+    - receiver: "slack"
+      group_by: [project, instance]
+      group_wait: 5s
+      group_interval: 5s
+      matchers:
+        - alertname="backend"
+      # repeat_interval: 4h
+
+receivers:
+  - name: "default-receiver"
+    slack_configs:
+      - send_resolved: true
+        channel: "slack-hook"
+
+  - name: "slack"
+    slack_configs:
+      - send_resolved: true
+        channel: "slack-hook"
+        title: '{{ if eq .Status "firing" }}:fire:{{ else }}:white_check_mark:{{ end }} [{{ .Status | toUpper }}] {{ .CommonAnnotations.title }} '
+        text: "{{ .CommonAnnotations.summary }} \n *Description* \n {{ .CommonAnnotations.description }} \n - *Project:* `{{ .GroupLabels.project }}`\n - *Instance:* `{{ .GroupLabels.instance }}` \n - *State* `{{ .CommonLabels.state }}` !!"
