@@ -172,6 +172,10 @@ services:
               proxy_pass       http://read:3100\$$request_uri;
             }
 
+            location = /loki/ready {
+              proxy_pass       http://write:3100/ready;
+            }
+
             location = /loki/api/v1/push {
               proxy_pass       http://write:3100\$$request_uri;
             }
