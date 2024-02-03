@@ -1,0 +1,12 @@
+services:
+  kavita:
+    container_name: kavita
+    ports:
+      - ${PORT}:5000
+    volumes:
+      - ${BOOK_DIR}:/manga
+      - ${KAVITA_CONFIG}:/kavita/config
+    restart: unless-stopped
+    environment:
+      - ${TZ}/Timezone
+    image: jvmilazz0/kavita:latest
