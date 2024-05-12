@@ -1,0 +1,41 @@
+services:
+  zookeeper:
+    image: "quay.io/debezium/zookeeper:2.5"
+    ports:
+      - "3888:3888"
+      - "2888:2888"
+      - "2181:2181"
+    tty: true
+    stdin_open: true
+  kafka:
+    image: "quay.io/debezium/kafka:2.5"
+    links:
+      - "zookeeper:zookeeper"
+    ports:
+      - "9092:9092"
+    tty: true
+    stdin_open: true
+  mysql:
+    image: "quay.io/debezium/example-mysql:2.5"
+    environment:
+      - MYSQL_PASSWORD=mysqlpw
+      - MYSQL_USER=mysqluser
+      - MYSQL_ROOT_PASSWORD=debezium
+    ports:
+      - "3306:3306"
+    tty: true
+    stdin_open: true
+  kafka-connect:
+    image: "quay.io/debezium/connect:2.5"
+    links:
+      - "mysql:mysql"
+      - "kafka:kafka"
+    environment:
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - GROUP_ID=1
+    ports:
+      - "8083:8083"
+    tty: true
+    stdin_open: true
