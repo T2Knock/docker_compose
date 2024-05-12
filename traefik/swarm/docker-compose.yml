@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   traefik:
     # Use the latest v2.2.x Traefik image available

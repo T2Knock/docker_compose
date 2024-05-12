@@ -1,4 +1,3 @@
-version: "3"
 services:
   ovpn:
     image: kylemanna/openvpn:2.4
