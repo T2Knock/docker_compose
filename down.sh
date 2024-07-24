@@ -6,7 +6,7 @@ running_compose=$(docker compose ls | awk 'BEGIN {ORS=" "} NR!=1{print $1}')
 
 gum log --level info --time timeonly "Choose a target to shutdown"
 
-pick_compose=$(gum choose "$running_compose" --no-limit | xargs)
+pick_compose=$(gum choose $running_compose --no-limit | xargs)
 
 COMPOSES=("$pick_compose")
 
