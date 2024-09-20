@@ -8,7 +8,7 @@ gum log --level info --time timeonly "Choose a target to shutdown"
 
 pick_compose=$(gum choose $running_compose --no-limit | xargs)
 
-COMPOSES=("$pick_compose")
+COMPOSES=($pick_compose)
 
 for service in "${COMPOSES[@]}"; do
 	gum log --level info --time timeonly "Shutting down ${service}"
