@@ -1,0 +1,35 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synergychat-crawler
+  namespace: crawler
+  labels:
+    app: synergychat-crawler
+spec:
+  selector:
+    matchLabels:
+      app: synergychat-crawler
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: synergychat-crawler
+      labels:
+        app: synergychat-crawler
+    spec:
+      containers:
+        - name: synergychat-crawler
+          image: bootdotdev/synergychat-crawler:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: CRAWLER_PORT
+              value: "8080"
+            - name: CRAWLER_KEYWORDS
+              value: love,hate,joy,sadness,anger,disgust,fear,surprise
+---

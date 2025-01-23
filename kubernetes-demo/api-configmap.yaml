@@ -1,0 +1,11 @@
+# https://kubernetes.io/docs/concepts/configuration/configmap/
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synergychat-api
+  namespace: default
+data:
+  API_PORT: "8080"
+  API_DB_FILEPATH: /persist/db.json
+  CRAWLER_BASE_URL: http://crawler-service.crawler.svc.cluster.local
+---
