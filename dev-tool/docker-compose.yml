@@ -1,29 +1,46 @@
 name: tools
 
 services:
-  # db:
-  #   image: mysql:8.0
-  #   restart: unless-stopped
-  #   ports:
-  #     - 3306:3306
-  #   env_file: ./.env
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-  #   volumes:
-  #     - ./init:/docker-entrypoint-initdb.d
-  #     - ./my.cnf:/etc/my.cnf
-  #     - mysql:/var/lib/mysql
-  #
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - ./my.cnf:/etc/my.cnf
+      - mysql:/var/lib/mysql
+
   mongodb-community-server:
     container_name: mongodb
     image: "mongodb/mongodb-community-server:8.0.3-ubuntu2204"
     ports:
       - "27017:27017"
+
   redis:
     image: redis:7.0
     restart: unless-stopped
     ports:
       - 6379:6379
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  nats:
+    image: nats:latest
+    ports:
+      - 4222:4222
+    tty: true
+    stdin_open: true
+
 volumes:
   mysql:
+  rabbitmq_data:
