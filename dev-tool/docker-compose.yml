@@ -38,6 +38,7 @@ services:
     image: nats:latest
     ports:
       - 4222:4222
+      - 8222:8222
     tty: true
     stdin_open: true
 
